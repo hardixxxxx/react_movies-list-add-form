@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-type FormErrors = Partial<Record<keyof Movie, string>>;
+export type FormErrors = Partial<Record<keyof Movie, string>>;
 
 const validate = (values: Movie): FormErrors => {
   const pattern =
@@ -16,7 +16,7 @@ const validate = (values: Movie): FormErrors => {
   }
 
   if (!imgUrl) {
-    errors.imgUrl = 'ImgUrl is required';
+    errors.imgUrl = 'Image URL is required';
   }
 
   if (!errors.imgUrl && !pattern.test(imgUrl)) {
@@ -24,7 +24,7 @@ const validate = (values: Movie): FormErrors => {
   }
 
   if (!imdbUrl) {
-    errors.imdbUrl = 'ImdbUrl is required';
+    errors.imdbUrl = 'Imdb URL is required';
   }
 
   if (!errors.imdbUrl && !pattern.test(imdbUrl)) {
@@ -32,7 +32,7 @@ const validate = (values: Movie): FormErrors => {
   }
 
   if (!imdbId) {
-    errors.imdbId = 'imdbId is required';
+    errors.imdbId = 'Imdb ID is required';
   }
 
   return errors;
@@ -54,7 +54,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [formKey, setFormKey] = useState(0);
 
   const [values, setValues] = useState(defaultValues);
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [, setErrors] = useState<FormErrors>({});
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const handlerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,10 +89,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     const { title, description, imgUrl, imdbUrl, imdbId } = values;
 
-    // const newErrors = validate(values);
+    const newErrors = validate(values);
 
-    // setErrors(newErrors);
-    if (Object.keys(errors).length > 0) {
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) {
       return;
     }
 
